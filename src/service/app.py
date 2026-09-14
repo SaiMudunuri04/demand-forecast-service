@@ -61,6 +61,8 @@ def forecast(request: ForecastRequest) -> dict:
         raise HTTPException(422, "This model supports only the day after its training data")
     day = request.forecast_date.weekday()
     history = request.last_seven_units
+    if history != bundle["history"]:
+        raise HTTPException(422, "History must match the model's final seven observations")
     vector = [[history[-1], history[0], sum(history) / 7, request.price, request.promotion,
                np.sin(2 * np.pi * day / 7), np.cos(2 * np.pi * day / 7)]]
     return {"forecast_date": request.forecast_date.isoformat(),

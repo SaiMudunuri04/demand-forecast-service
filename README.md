@@ -39,4 +39,4 @@ python -m pip install -e '.[aws]'
 python scripts/launch_sagemaker.py --training-s3-uri s3://your-bucket/demand-training/
 ```
 
-The SageMaker training channel must contain `demand.csv`. The API accepts exactly seven prior unit observations and forecasts only the day after the training series. Mount a reviewed model artifact read-only at `/models` before deployment. There is no claimed business-data accuracy or live AWS training run.
+The SageMaker training channel must contain `demand.csv`. The API accepts the model artifact's final seven actual unit observations and forecasts only the day after the training series; it rejects a different history to avoid presenting a scenario as a continuation of the trained series. Mount a reviewed model artifact read-only at `/models` before deployment. There is no claimed business-data accuracy or live AWS training run.

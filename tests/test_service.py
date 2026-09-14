@@ -1,6 +1,7 @@
 import csv
 from datetime import date, timedelta
 
+import joblib
 from fastapi.testclient import TestClient
 
 from service import app, train
@@ -25,11 +26,16 @@ def test_backtest_and_api(tmp_path, monkeypatch):
     app.artifact.cache_clear()
     client = TestClient(app.app)
     assert client.get("/health/ready").status_code == 200
+    history = joblib.load(tmp_path / "model" / "model.joblib")["history"]
     result = client.post("/forecast", json={"forecast_date": (date(2025, 1, 1) + timedelta(days=90)).isoformat(),
-                                           "last_seven_units": [40, 42, 44, 46, 48, 50, 52],
+                                           "last_seven_units": history,
                                            "price": 10, "promotion": 0})
     assert result.status_code == 200
     assert result.json()["predicted_units"] >= 0
+    invalid = client.post("/forecast", json={"forecast_date": (date(2025, 1, 1) + timedelta(days=90)).isoformat(),
+                                            "last_seven_units": [0] * 7,
+                                            "price": 10, "promotion": 0})
+    assert invalid.status_code == 422
 
 
 def test_future_actuals_cannot_change_first_holdout_prediction(tmp_path):
