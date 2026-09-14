@@ -7,6 +7,10 @@ a container, Helm release, Argo CD application, and a CI workflow that builds an
 immutable GHCR image after tests pass. It is a reference implementation; it has not
 been deployed to a user's AWS account or Kubernetes cluster.
 
+## Start here
+
+**Problem:** forecast demand while respecting time order and the final observed history. **What this demonstrates:** lag and calendar features, expanding-window backtests, a Ridge forecasting API, and repeatable SageMaker-to-Helm delivery. **Inspect first:** [`docs/architecture.md`](docs/architecture.md), [`src/service/train.py`](src/service/train.py), and the tests.
+
 ## Run
 
 ```sh
