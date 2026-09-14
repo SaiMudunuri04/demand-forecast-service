@@ -7,6 +7,7 @@ import csv
 import json
 import os
 from datetime import date, timedelta
+from itertools import pairwise
 from pathlib import Path
 
 import joblib
@@ -32,7 +33,7 @@ def load(path: Path) -> list[dict]:
     rows.sort(key=lambda row: row["date"])
     if len(rows) < 35 or len({r["date"] for r in rows}) != len(rows):
         raise ValueError("At least 35 distinct daily observations are required")
-    if any(b["date"] - a["date"] != timedelta(days=1) for a, b in zip(rows, rows[1:])):
+    if any(b["date"] - a["date"] != timedelta(days=1) for a, b in pairwise(rows)):
         raise ValueError("Missing dates; impute explicitly before training")
     if any(r["units"] < 0 or r["price"] < 0 or r["promotion"] not in (0, 1) or
            not np.isfinite([r["units"], r["price"]]).all() for r in rows):

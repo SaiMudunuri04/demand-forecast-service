@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/SaiMudunuri04/demand-forecast-service.git
     targetRevision: main
-    path: helm/chart
+    path: k8s/helm/demand-forecast-service
   destination:
     server: https://kubernetes.default.svc
     namespace: demand-forecast-service

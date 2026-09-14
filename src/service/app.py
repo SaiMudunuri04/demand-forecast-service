@@ -12,9 +12,11 @@ import numpy as np
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
+from .observability import RequestLoggingMiddleware
 from .train import FEATURES
 
 app = FastAPI(title="Demand forecast", version="0.1.0")
+app.add_middleware(RequestLoggingMiddleware)
 
 
 class ForecastRequest(BaseModel):
