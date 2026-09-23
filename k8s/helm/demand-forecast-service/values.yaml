@@ -6,7 +6,7 @@ podLabels: {}
 podAnnotations: {}
 image:
   repository: ghcr.io/saimudunuri04/demand-forecast-service
-  tag: "a60bf4e249c550a3035f756b50c718766709c232"
+  tag: "92f8277e50a2692a627182d77038b90500bbc406"
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 serviceAccount:
