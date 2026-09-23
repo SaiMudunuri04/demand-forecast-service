@@ -37,7 +37,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/saimudunuri04/demand-forecast-service:${{ github.sha }}
+          tags: |
+            ghcr.io/saimudunuri04/demand-forecast-service:${{ github.sha }}
+            ghcr.io/saimudunuri04/demand-forecast-service:latest
       - name: Pin Argo CD image to tested commit
         run: |
           sed -i 's/^  tag:.*/  tag: "'"$GITHUB_SHA"'"/' k8s/helm/demand-forecast-service/values.yaml
